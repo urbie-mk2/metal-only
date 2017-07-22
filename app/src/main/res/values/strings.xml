@@ -185,8 +185,18 @@
     </string-array>
     <string name="error_player32" translatable="false">AAC+ Decoder-Error</string>
     <string name="plan_failed_to_load">Plan konnte nicht geladen werden.</string>
-    <string name="aboutFurtherInfos">Mehr Infos - inklusive der verwendeten Bibliotheken etc. - gibt es in der README.md unter auf GitHub unter https://github.com/ironjan/metal-only</string>
+    <string name="aboutFurtherInfos">Mehr Infos - inklusive der verwendeten Bibliotheken etc. - gibt
+        es in der README.md unter auf GitHub unter https://github.com/ironjan/metal-only</string>
     <string name="clear">Wunsch &amp; Gruß leeren</string>
+    <string name="compliance_payment_policy">Metal Only e.V. ist ein gemeinnütziger Verein zur
+        Förderung junger und begabter Musiker.\n\nUm den öffentlichen und kostenlos zugänglichen
+        Stream am Leben zu erhalten, benötigt dieser Verein eure Spenden. Da der Verein gemeinnützig
+        ist - die Gemeinnützigkeit wurde 20XX vom Steueramt Eßlingen anerkannt - könnt ihr bis zu
+        200€ an Spenden von der Steuer absetzen. Weitere Infos zu Spenden an den Verein und dessen
+        Gemeinnützigkeit gibt es unter LINK.\n\nDie Spendenfunktion in der Metal Only App leitet
+        euch ausschließlich an PayPal weiter, um die Vorraussetzungen der Google Play Developer
+        Payment Policy zu erfüllen.\nDie Compliance mit dieser Policy wurde in den Appeals [1] und
+        [2] festgestellt.</string>
     <string name="stats_failed_to_load">Wunsch- und Gruß-Infos konnten nicht geladen werden.</string>
     <string name="compliance_payment_policy">Metal Only e.V. ist ein </string>
 </resources>
