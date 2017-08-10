@@ -2,8 +2,6 @@ package com.codingspezis.android.metalonly.player;
 
 
 import android.content.ComponentName;
-import android.content.Intent;
-import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.intent.Intents;
 import android.support.test.rule.ActivityTestRule;
@@ -16,7 +14,6 @@ import android.view.ViewParent;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,8 +27,6 @@ import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
-import static android.support.test.espresso.intent.matcher.IntentMatchers.isInternal;
-import static android.support.test.espresso.intent.matcher.IntentMatchers.toPackage;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -42,17 +37,9 @@ import static org.hamcrest.Matchers.allOf;
 public class FavoritesActivity_Test {
     public static final String BLUE_CROWN = "Blue Crown";
     public static final String DUNES = "Dunes";
-    private Matcher<Intent> expectedIntent;
 
     @Rule
     public ActivityTestRule<FavoritesActivity_> testRule = new ActivityTestRule<>(FavoritesActivity_.class);
-
-    @Before
-    public void setUp(){
-        expectedIntent = allOf(
-                toPackage(InstrumentationRegistry.getTargetContext().getPackageName()),
-                isInternal());
-    }
 
     /**
      * Creates a new favorite and prepares a wish with it.
