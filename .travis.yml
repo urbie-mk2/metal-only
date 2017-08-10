@@ -28,6 +28,7 @@ jobs:
       script: ./scripts/lint.sh
     - stage: test
       script: ./scripts/test.sh
+    - stage: connected_test
       script: ./scripts/_connected_test.sh
 
 before_cache:
