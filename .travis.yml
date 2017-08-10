@@ -24,11 +24,11 @@ android:
 
 jobs:
   include:
-    - stage: lint
+    - stage: lint_and_unit
       script: ./scripts/lint.sh
-    - stage: test
+    - stage: lint_and_unit
       script: ./scripts/test.sh
-    - stage: connected_test
+    - stage: integration
       script: ./scripts/_connected_test.sh
 
 before_cache:
