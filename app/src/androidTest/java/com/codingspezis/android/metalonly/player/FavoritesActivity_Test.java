@@ -1,7 +1,14 @@
 package com.codingspezis.android.metalonly.player;
 
 
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.ViewInteraction;
+import android.support.test.espresso.assertion.ViewAssertions;
+import android.support.test.espresso.intent.Intents;
+import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
@@ -9,19 +16,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
+import org.androidannotations.annotations.Extra;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+import org.hamcrest.core.IsInstanceOf;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.intent.Intents.intended;
+import static android.support.test.espresso.intent.Intents.intending;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.isInternal;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.toPackage;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -33,29 +49,44 @@ import static org.hamcrest.Matchers.is;
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class FavoritesActivity_Test {
+    public static final String BLUE_CROWN = "Blue Crown";
+    public static final String DUNES = "Dunes";
+    private Matcher<Intent> expectedIntent;
 
     @Rule
-    public ActivityTestRule<FavoritesActivity_> mActivityTestRule = new ActivityTestRule<>(FavoritesActivity_.class);
+    public ActivityTestRule<FavoritesActivity_> testRule = new ActivityTestRule<>(FavoritesActivity_.class);
 
+    @Before
+    public void setUp(){
+        expectedIntent = allOf(
+                toPackage(InstrumentationRegistry.getTargetContext().getPackageName()),
+                isInternal());
+    }
+
+    /**
+     * Creates a new favorite and prepares a wish with it.
+     */
     @Test
     public void favoritesActivity_Test() {
+        Intents.init();
+
         ViewInteraction actionMenuItemView = onView(allOf(withId(R.id.mnu_add_manually), isDisplayed()));
         actionMenuItemView.perform(click());
 
-        ViewInteraction appCompatEditText = onView(withId(R.id.edit_artist));
-        appCompatEditText.perform(scrollTo(), click());
+        onView(withId(R.id.edit_artist))
+                .perform(scrollTo(), click());
 
-        ViewInteraction appCompatEditText2 = onView(withId(R.id.edit_artist));
-        appCompatEditText2.perform(scrollTo(), replaceText("Blue Crown"), closeSoftKeyboard());
+        onView(withId(R.id.edit_artist))
+                .perform(scrollTo(), replaceText("Blue Crown"), closeSoftKeyboard());
 
-        ViewInteraction appCompatEditText7 = onView(withId(R.id.edit_title));
-        appCompatEditText7.perform(scrollTo(), replaceText("Dunes"), closeSoftKeyboard());
+        onView(withId(R.id.edit_title))
+                .perform(scrollTo(), replaceText("Dunes"), closeSoftKeyboard());
 
-        ViewInteraction appCompatButton = onView(allOf(withId(android.R.id.button1), withText("OK"), isDisplayed()));
-        appCompatButton.perform(click());
+        onView(allOf(withId(android.R.id.button1), withText("OK"), isDisplayed()))
+                .perform(click());
 
         ViewInteraction textView = onView(
-                allOf(withId(R.id.txtArtist), withText("Blue Crown"),
+                allOf(withId(R.id.txtArtist), withText(BLUE_CROWN),
                         childAtPosition(
                                 allOf(withId(R.id.LinearLayout1),
                                         childAtPosition(
@@ -66,7 +97,7 @@ public class FavoritesActivity_Test {
         textView.check(matches(withText("Blue Crown")));
 
         ViewInteraction textView2 = onView(
-                allOf(withId(R.id.txtTitle), withText("Dunes"),
+                allOf(withId(R.id.txtTitle), withText(DUNES),
                         childAtPosition(
                                 allOf(withId(R.id.LinearLayout1),
                                         childAtPosition(
@@ -84,16 +115,15 @@ public class FavoritesActivity_Test {
                         isDisplayed()));
         relativeLayout.perform(click());
 
-        ViewInteraction appCompatTextView = onView(
-                allOf(withId(android.R.id.text1), withText("Wünschen"),
-                        childAtPosition(
-                                allOf(withClassName(is("com.android.internal.app.AlertController$RecycleListView")),
-                                        withParent(withClassName(is("android.widget.LinearLayout")))),
-                                0),
-                        isDisplayed()));
-        appCompatTextView.perform(click());
 
-        // Continue to check that wish activity loaded
+        onView(
+                allOf(withId(android.R.id.text1), withText("Wünschen"),
+                        isDisplayed()))
+                .perform(click());
+
+        intended(hasComponent(new ComponentName(getTargetContext(), WishActivity_.class)));
+
+        Intents.release();
     }
 
     private static Matcher<View> childAtPosition(
