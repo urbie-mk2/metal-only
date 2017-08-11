@@ -29,6 +29,7 @@ jobs:
     - stage: lint_and_unit
       script: ./scripts/test.sh
     - stage: integration
+      before_script: ./scripts/travis_start_emulator.sh
       script: ./scripts/_connected_test.sh
 
 before_cache:
